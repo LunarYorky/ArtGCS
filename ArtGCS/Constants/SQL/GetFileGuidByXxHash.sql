@@ -1,0 +1,1 @@
+SELECT `guid` FROM `file` WHERE `xxhash` = $XxHash;

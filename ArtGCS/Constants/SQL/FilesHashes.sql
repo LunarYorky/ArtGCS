@@ -1,0 +1,1 @@
+SELECT `local_path`, `xxhash` FROM `file`;

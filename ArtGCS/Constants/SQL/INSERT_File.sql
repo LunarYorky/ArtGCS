@@ -1,0 +1,1 @@
+INSERT INTO `file` (`guid`,`local_path`, `xxhash`, `first_save_time`) VALUES ($guid, $path, $xxHash, $saveTime);
