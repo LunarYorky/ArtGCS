@@ -1,0 +1,6 @@
+{
+  "MetaFilesDirectory": ".ArtGCS",
+  "DBName": "ArtGCS.db",
+  "UsersDirectoryName": "users",
+  "SQLFilesDirectory": "SQL"
+}
