@@ -12,7 +12,7 @@ public abstract class BaseParser
     public Profile ParsProfile(string userName)
     {
         var uri = GetUserProfileUri(userName);
-        var userProfileHtml = HtmlLoader.GetHtml(uri);
+        var userProfileHtml = WebDownloader.GetHtml(uri);
 
         return new Profile
         {
@@ -45,7 +45,7 @@ public abstract class BaseParser
     private List<HtmlDocument> GetGalleryPages(Uri uri)
     {
         var pages = new List<HtmlDocument>();
-        var doc = HtmlLoader.GetHtml(uri);
+        var doc = WebDownloader.GetHtml(uri);
         pages.Add(doc);
 
         while (TryGetNextGalleryPage(doc, out doc))

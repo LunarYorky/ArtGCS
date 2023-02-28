@@ -4,11 +4,11 @@ using HtmlAgilityPack;
 
 namespace ArtGCS.Networking;
 
-public static class HtmlLoader
+public static class WebDownloader
 {
     private static readonly HttpClient Client;
 
-    static HtmlLoader()
+    static WebDownloader()
     {
         var options = new TokenBucketRateLimiterOptions()
         {
@@ -37,5 +37,10 @@ public static class HtmlLoader
         var doc = new HtmlDocument();
         doc.LoadHtml(html);
         return doc;
+    }
+
+    public static async Task<Stream> GetStreamAsync(Uri uri)
+    {
+        return await Client.GetStreamAsync(uri);
     }
 }

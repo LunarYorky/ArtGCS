@@ -42,7 +42,7 @@ public class FaParser : BaseParser
 
         foreach (var uri in uris)
         {
-            var doc = HtmlLoader.GetHtml(uri);
+            var doc = WebDownloader.GetHtml(uri);
 
             var img = doc.DocumentNode.SelectSingleNode(".//img[@id='submissionImg']");
 
@@ -125,7 +125,7 @@ public class FaParser : BaseParser
             ".//div[@class='section-body']/div[@class='submission-list']/div[@class='aligncenter']/div[last()]/form");
         if (next != null && next.InnerText.Contains("Next"))
         {
-            nextPage = HtmlLoader.GetHtml(new Uri("https://www.furaffinity.net" + next.Attributes.First().Value));
+            nextPage = WebDownloader.GetHtml(new Uri("https://www.furaffinity.net" + next.Attributes.First().Value));
             return true;
         }
 
