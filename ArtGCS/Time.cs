@@ -18,4 +18,9 @@ public static class Time
         // return DateTime.ParseExact(utcDateTimeString, "yy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
         return DateTime.UtcNow;
     }
+
+    public static TimeOnly GetCurrentTimeOnly()
+    {
+        return TimeOnly.FromDateTime(GetCurrentDateTime());
+    }
 }
