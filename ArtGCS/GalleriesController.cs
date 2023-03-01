@@ -10,6 +10,8 @@ public class GalleriesController
     public static GalleriesController? Create(string workDirectory)
     {
         var gc = new GalleriesController(workDirectory);
+        Directory.CreateDirectory(ConstantsManager.UsersDirectory);
+        Directory.CreateDirectory(ConstantsManager.FilesWithoutSourceDirectory);
         return gc._dataBase.CreateDB() ? gc : null;
     }
 
@@ -21,6 +23,8 @@ public class GalleriesController
             return null;
 
         gc._storageManager.ValidateFiles(workDirectory, files);
+        Directory.CreateDirectory(ConstantsManager.UsersDirectory);
+        Directory.CreateDirectory(ConstantsManager.FilesWithoutSourceDirectory);
         return gc;
     }
 
