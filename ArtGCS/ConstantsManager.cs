@@ -47,7 +47,7 @@ public static class ConstantsManager
         {
             try
             {
-                SQLQueries[query.Key] = File.ReadAllText(Path.Combine(SQLFilesDirecrory, query.Value));
+                SQLQueries[query.Key] = File.ReadAllText(Path.Combine(SQLFilesDirectory, query.Value));
             }
             catch
             {
@@ -58,7 +58,9 @@ public static class ConstantsManager
 
     //Path
     public static string MetaFilesDirectory => _constants.MetaFilesDirectory;
-    public static string DbPath => Path.Combine(MetaFilesDirectory, _constants.DBName);
+    public static string FilesWithoutSourceDirectory => _constants.filesWithoutSource;
+    public static string LogsDirectory => _constants.LogDirectoryName;
     public static string UsersDirectory => Path.Combine(MetaFilesDirectory, _constants.UsersDirectoryName);
-    public static string SQLFilesDirecrory => Path.Combine(ConstantsDirectory, _constants.SQLFilesDirectory);
+    private static string SQLFilesDirectory => Path.Combine(ConstantsDirectory, _constants.SQLFilesDirectory);
+    public static string DbPath => Path.Combine(MetaFilesDirectory, _constants.DBName);
 }

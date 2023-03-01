@@ -6,4 +6,6 @@ public class ConstantsJson
     public string DBName { get; init; }
     public string UsersDirectoryName { get; init; }
     public string SQLFilesDirectory { get; init; }
+    public string LogDirectoryName { get; init; }
+    public string filesWithoutSource { get; init; }
 }
