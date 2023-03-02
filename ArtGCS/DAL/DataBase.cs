@@ -70,9 +70,7 @@ public class DataBase : IDisposable
         using var reader = command.ExecuteReader();
 
         if (!reader.HasRows) return filesHashes;
-
-        Console.WriteLine(reader.HasRows);
-
+        reader.Read();
         while (reader.Read())
         {
             Console.WriteLine(reader.GetString(0));
@@ -123,9 +121,36 @@ public class DataBase : IDisposable
         return true;
     }
 
-    public bool TryAddGallery(Uri uri, string owner, string name)
+    public bool TryAddGallery(Gallery gallery)
     {
-        var time = DataTimeToString(Time.GetCurrentDateTime());
+        using var command = new SqliteCommand(SQLQueries[InsertGalley], _connection);
+        command.Parameters.AddWithValue("$uri", gallery.Uri.ToString());
+        command.Parameters.AddWithValue("$resource", gallery.Uri.Host);
+        command.Parameters.AddWithValue("$owner", gallery.Owner);
+        command.Parameters.AddWithValue("$nick_name", gallery.NickName);
+        command.Parameters.AddWithValue("$creation_time", gallery.CreationTimeString);
+        command.Parameters.AddWithValue("$status", gallery.Status);
+        command.Parameters.AddWithValue("$description", gallery.Description);
+        command.Parameters.AddWithValue("$icon_file", gallery.IconFile);
+        command.Parameters.AddWithValue("$first_save_time", gallery.FirstSaveTimeString);
+        command.Parameters.AddWithValue("$last_update_time", gallery.LastUpdateTimeString);
+
+        try
+        {
+            command.ExecuteNonQuery();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return false;
+        }
+
+        return true;
+    }
+
+    public bool TryAddSubmission(Uri uri, string owner, string name)
+    {
+        var time = Time.DataTimeToString(Time.GetCurrentDateTime());
         using var command = new SqliteCommand(SQLQueries[InsertGalley], _connection);
         command.Parameters.AddWithValue("$uri", uri.ToString());
         command.Parameters.AddWithValue("$resource", uri.Host);

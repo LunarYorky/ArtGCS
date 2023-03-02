@@ -39,8 +39,16 @@ public class GalleriesController
         return _dataBase.AddUser(name, Time.GetCurrentDateTime());
     }
 
-    public bool TryAddNewGallery(Uri uri, string ownerName, string nickName)
+    public bool TryAddNewGallery(Uri uri, string ownerName, string nickName, DateTime creationTime = new(),
+        string? status = null, string? description = null, string? iconFile = null)
     {
-        return _dataBase.TryAddGallery(uri, ownerName, nickName);
+        var time = Time.GetCurrentDateTime();
+        return _dataBase.TryAddGallery(new Gallery(uri, ownerName, nickName, time, time)
+        {
+            CreationDataTime = creationTime,
+            Status = status,
+            Description = description,
+            IconFile = iconFile,
+        });
     }
 }
