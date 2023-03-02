@@ -90,7 +90,7 @@ public class DataBase : IDisposable
         command.Parameters.AddWithValue("$guid", guid);
         command.Parameters.AddWithValue("$path", path);
         command.Parameters.AddWithValue("$xxHash", xxHash);
-        command.Parameters.AddWithValue("$saveTime", DataTimeToString(saveTime));
+        command.Parameters.AddWithValue("$saveTime", Time.DataTimeToString(saveTime));
         try
         {
             command.ExecuteNonQuery();
@@ -105,7 +105,7 @@ public class DataBase : IDisposable
 
     public bool AddUser(string name, DateTime dateTime)
     {
-        var time = DataTimeToString(dateTime);
+        var time = Time.DataTimeToString(dateTime);
         using var command = new SqliteCommand(SQLQueries[InsertUser], _connection);
         command.Parameters.AddWithValue("$name", name);
         command.Parameters.AddWithValue("$first_save_time", time);
@@ -165,16 +165,6 @@ public class DataBase : IDisposable
 
         guid = null;
         return false;
-    }
-
-    private static string DataTimeToString(DateTime dateTime)
-    {
-        return dateTime.ToString("yyyy-MM-dd HH:mm:ss");
-    }
-
-    private static DateTime StringToDataTime(string time)
-    {
-        return DateTime.ParseExact(time, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
     }
 
     public void Dispose()
