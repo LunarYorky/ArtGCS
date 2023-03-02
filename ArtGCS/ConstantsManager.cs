@@ -16,7 +16,8 @@ public static class ConstantsManager
         { SQLQueri.FilesHashes, "FilesHashes.sql" },
         { SQLQueri.NewFile, "INSERT_File.sql" },
         { SQLQueri.GetFileGuidByXxHash, "GetFileGuidByXxHash.sql" },
-        { SQLQueri.InsertUser, "INSERT_User.sql" }
+        { SQLQueri.InsertUser, "INSERT_User.sql" },
+        { SQLQueri.InsertGalley, "INSERT_Gallery.sql" }
     };
 
     public enum SQLQueri
@@ -25,7 +26,8 @@ public static class ConstantsManager
         FilesHashes,
         NewFile,
         GetFileGuidByXxHash,
-        InsertUser
+        InsertUser,
+        InsertGalley
     }
 
     static ConstantsManager()

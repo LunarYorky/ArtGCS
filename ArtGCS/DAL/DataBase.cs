@@ -123,6 +123,29 @@ public class DataBase : IDisposable
         return true;
     }
 
+    public bool TryAddGallery(Uri uri, string owner, string name)
+    {
+        var time = DataTimeToString(Time.GetCurrentDateTime());
+        using var command = new SqliteCommand(SQLQueries[InsertGalley], _connection);
+        command.Parameters.AddWithValue("$uri", uri.ToString());
+        command.Parameters.AddWithValue("$resource", uri.Host);
+        command.Parameters.AddWithValue("$owner", owner);
+        command.Parameters.AddWithValue("$nick_name", name);
+        command.Parameters.AddWithValue("$first_save_time", time);
+        command.Parameters.AddWithValue("$last_update_time", time);
+        try
+        {
+            command.ExecuteNonQuery();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return false;
+        }
+
+        return true;
+    }
+
     public bool HashExists(string xxHash, out string? guid)
     {
         using var command = new SqliteCommand(SQLQueries[GetFileGuidByXxHash], _connection);
