@@ -148,16 +148,22 @@ public class DataBase : IDisposable
         return true;
     }
 
-    public bool TryAddSubmission(Uri uri, string owner, string name)
+    public bool TryAddSubmission(Submission submission)
     {
-        var time = Time.DataTimeToString(Time.GetCurrentDateTime());
-        using var command = new SqliteCommand(SQLQueries[InsertGalley], _connection);
-        command.Parameters.AddWithValue("$uri", uri.ToString());
-        command.Parameters.AddWithValue("$resource", uri.Host);
-        command.Parameters.AddWithValue("$owner", owner);
-        command.Parameters.AddWithValue("$nick_name", name);
-        command.Parameters.AddWithValue("$first_save_time", time);
-        command.Parameters.AddWithValue("$last_update_time", time);
+        using var command = new SqliteCommand(SQLQueries[InsertSubmission], _connection);
+        command.Parameters.AddWithValue("$uri", submission.Uri.ToString());
+        command.Parameters.AddWithValue("$source_gallery", submission.SourceGallery);
+        command.Parameters.AddWithValue("$file", submission.File);
+        command.Parameters.AddWithValue("$file_uri", submission.FileUri.ToString());
+        command.Parameters.AddWithValue("$title", submission.Title);
+        command.Parameters.AddWithValue("$description", submission.Description);
+        command.Parameters.AddWithValue("$tags", submission.Tags);
+        command.Parameters.AddWithValue("$publication_time", submission.PublicationTimeString);
+        command.Parameters.AddWithValue("$first_save_time", submission.FirstSaveTimeString);
+        command.Parameters.AddWithValue("$last_update_time", submission.LastUpdateTimeString);
+        command.Parameters.AddWithValue("$last_modified_submission_file",
+            submission.LastModifiedSubmissionFileTimeString);
+
         try
         {
             command.ExecuteNonQuery();
