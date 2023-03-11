@@ -14,9 +14,15 @@ public class Logger : IDisposable
         NewLogFile(workDirectory);
     }
 
+    public Logger(string workDirectory, string logSource)
+    {
+        NewLogFile(workDirectory);
+        InfoLog($"Logs from \"{logSource}\"");
+    }
+
     public void NewLogFile(string workDirectory)
     {
-        var dir = Path.Combine(workDirectory, ConstantsManager.LogsDirectory);
+        var dir = Path.Combine(workDirectory, Constants.LogsDirectory);
         Directory.CreateDirectory(dir);
 
         _streamWriter = File.AppendText(Path.Combine(dir,

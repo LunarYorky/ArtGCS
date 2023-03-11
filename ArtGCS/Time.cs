@@ -23,4 +23,14 @@ public static class Time
     {
         return TimeOnly.FromDateTime(GetCurrentDateTime());
     }
+    
+    public static string DataTimeToString(DateTime dateTime)
+    {
+        return dateTime.ToString("yyyy-MM-dd HH:mm:ss");
+    }
+
+    public static DateTime StringToDataTime(string time)
+    {
+        return DateTime.ParseExact(time, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+    }
 }

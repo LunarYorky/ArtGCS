@@ -1,1 +1,0 @@
-INSERT INTO `user` (`name`,`first_save_time`, `last_update_time`) VALUES ($name, $first_save_time, $last_update_time);

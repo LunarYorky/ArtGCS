@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Net.Http.Headers;
 using System.Threading.RateLimiting;
 using HtmlAgilityPack;
 
@@ -14,19 +15,21 @@ public static class WebDownloader
         {
             TokenLimit = 1,
             QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
-            QueueLimit = 1,
-            ReplenishmentPeriod = TimeSpan.FromSeconds(2),
+            QueueLimit = 1000,
+            ReplenishmentPeriod = TimeSpan.FromSeconds(4),
             TokensPerPeriod = 1,
             AutoReplenishment = true
         };
-        var handler = new HttpClientHandler { AllowAutoRedirect = false }; // TODO headers
+        var handler = new HttpClientHandler { AllowAutoRedirect = false };
         var delegatingHandler = new HttpClientRateLimitedHandler(new TokenBucketRateLimiter(options), handler);
         Client = new HttpClient(delegatingHandler);
+        Client.DefaultRequestHeaders.Add("user-agent",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36");
     }
 
-    public static HtmlDocument GetHtml(Uri uri)
+    public static HtmlDocument? GetHtml(Uri uri)
     {
-        Console.WriteLine(uri.ToString());
+        Console.WriteLine("WebGetHtml: " + uri.ToString());
         var response = Client.GetAsync(uri).Result;
         if (response.StatusCode != HttpStatusCode.OK)
         {
@@ -39,8 +42,9 @@ public static class WebDownloader
         return doc;
     }
 
-    public static async Task<Stream> GetStreamAsync(Uri uri)
+    public static Task<HttpResponseMessage> GetAsync(Uri uri)
     {
-        return await Client.GetStreamAsync(uri);
+        Console.WriteLine("WebGetAsync: " + uri.ToString());
+        return Client.GetAsync(uri);
     }
 }
